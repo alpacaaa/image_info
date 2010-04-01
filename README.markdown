@@ -2,17 +2,16 @@
 
 - Version: 1.0
 - Date: 1st April 2010
-- Release Notes: Please see commit log on github
 - Github Repository: <http://github.com/alpacaaa/images-info/>
 
 
 ## Synopsis
 
-This is a Symphony CMS extension that extracts Itpc and Exif data from uploaded images.
+This is a Symphony CMS extension that extracts Iptc and Exif data from uploaded images.
 
 ### Server Requirements
 
-- PHP compiled with --enable-exif (only for exif metadata).
+- PHP compiled with `--enable-exif` (only for exif metadata).
 
 ## Installing
 
@@ -27,16 +26,16 @@ The URL to use is the following: `yourdomain.com/extensions/images_info/service.
 
 Images Informations accepts 4 parameters:
 
-- *`section`
+- `section`*
 An handle or a section id
-- *`entries`
+- `entries`*
 a set of entries ids separated by , (eg.: 1,5,7)
 - `iptc`
 whether or not to include iptc info (bool, default to **true**)
 - `exif`
 whether or not to include exif info (bool, default to **true**)
 
-**required*
+\* parameter is *required*
 
 
 To pass parameters, just append them to the url. The following is a valid possible call:
@@ -114,4 +113,4 @@ Obviously the url you supply to the DS doesn't have to be static. You can use an
 
 Therefore, something as simple as this would work as expected:
 
-    yourdomain.com/extensions/images_info/service.php?section=my-images&entries={$ds-output}
+    yourdomain.com/extensions/images_info/service.php?section=my-images&entries={$ds-whatever}
