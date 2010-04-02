@@ -19,7 +19,7 @@
 			return $ret;
 		}
 		
-		public static function findEntries($entries, $section)
+		public static function findEntries($entries, Section $section)
 		{
 			$entries = explode(',', $entries);
 			$em = new EntryManager(self::getParent());
@@ -47,12 +47,13 @@
 			foreach ($entries as $entry)
 			{
 			
-				foreach ($entry->getData() as $d)
+				$data = $entry->getData();
+				foreach ($data as $field)
 				{
 					// file upload field?
-					if (!array_key_exists('file', $d)) continue;
+					if (!array_key_exists('file', $field)) continue;
 			
-					$rel = $d['file'];
+					$rel = $field['file'];
 					$img = WORKSPACE. $rel;
 					$xml = new XMLElement(
 						'image',
@@ -80,7 +81,7 @@
 		
 		public static function processIptc($img, $node = 'iptc')
 		{
-			$size = getimagesize($img, $info);
+			getimagesize($img, $info);
 			$node = new XMLElement($node);
 			
 			if(isset($info['APP13']))
@@ -106,7 +107,8 @@
 			$exif = exif_read_data($img, 0, true);
 			$node = new XMLElement($node);
 			
-			if ($exif) {
+			if ($exif)
+			{
 				foreach ($exif as $name => $section)
 				{
 					
@@ -147,7 +149,8 @@
 			foreach ($default as $key => $val)
 			{
 				if (array_key_exists($key, $options)
-				&& (!is_null($options[$key]))) {
+				&& (!is_null($options[$key])))
+				{
 					
 					$opt = $options[$key];
 					$default[$key] = 
@@ -198,4 +201,3 @@
 			throw new Exception($msg);
 		}
 	}
-	

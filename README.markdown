@@ -1,8 +1,8 @@
-# Images Informations #
+# Image Information #
 
 - Version: 1.0
-- Date: 1st April 2010
-- Github Repository: <http://github.com/alpacaaa/images-info/>
+- Date: 2nd April 2010
+- Github Repository: <http://github.com/alpacaaa/image-info/>
 
 
 ## Synopsis
@@ -21,7 +21,7 @@ Install [as always](http://symphony-cms.com/learn/tasks/view/install-an-extensio
 
 This extension provides a sort of webservice that returns XML you can use as a dynamic datasource.
 
-The URL to use is the following: `yourdomain.com/extensions/images_info/service.php`
+The URL to use is the following: `yourdomain.com/extensions/image_info/service.php`
 (If you have installed symphony in a sub folder, you have to change the url accordingly).
 
 Images Informations accepts 4 parameters:
@@ -40,7 +40,7 @@ whether or not to include exif info (bool, default to **true**)
 
 To pass parameters, just append them to the url. The following is a valid possible call:
 
-    yourdomain.com/extensions/images_info/service.php?section=my-images&entries=9,12,17,22&iptc=false
+    yourdomain.com/extensions/image_info/service.php?section=my-images&entries=9,12,17,22&iptc=false
 
 This would output something like this:
 
@@ -113,4 +113,4 @@ Obviously the url you supply to the DS doesn't have to be static. You can use an
 
 Therefore, something as simple as this would work as expected:
 
-    yourdomain.com/extensions/images_info/service.php?section=my-images&entries={$ds-whatever}
+    yourdomain.com/extensions/image_info/service.php?section=my-images&entries={$ds-whatever}

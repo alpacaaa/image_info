@@ -14,7 +14,7 @@
 	
 	
 	ImagesInfo::setParent(Frontend::instance());
-	ImagesInfo::setRootElement('images-info');
+	ImagesInfo::setRootElement('image-info');
 	
 	$options = array(
 		'iptc' => $_GET['iptc'],

@@ -4,7 +4,7 @@
 
 		public function about(){
 			return array(
-				'name' => 'Images Informations',
+				'name' => 'Image Information',
 				'version' => '1.0',
 				'release-date' => '2010-04-01',
 				'author' => array(
