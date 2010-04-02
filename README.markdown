@@ -16,6 +16,7 @@ This is a Symphony CMS extension that extracts Iptc and Exif data from uploaded 
 ## Installing
 
 Install [as always](http://symphony-cms.com/learn/tasks/view/install-an-extension/).
+You don't need to enable it.
 
 ## Usage
 
@@ -24,12 +25,12 @@ This extension provides a sort of webservice that returns XML you can use as a d
 The URL to use is the following: `yourdomain.com/extensions/image_info/service.php`
 (If you have installed symphony in a sub folder, you have to change the url accordingly).
 
-Images Informations accepts 4 parameters:
+Image Information accepts 4 parameters:
 
 - `section`*
 An handle or a section id
 - `entries`*
-a set of entries ids separated by , (eg.: 1,5,7)
+a set of entries ids comma separated (eg.: 1,5,7)
 - `iptc`
 whether or not to include iptc info (bool, default to **true**)
 - `exif`
@@ -44,7 +45,7 @@ To pass parameters, just append them to the url. The following is a valid possib
 
 This would output something like this:
 
-    <images-info>
+    <image-info>
       <image path="/1431294624_14c70d71e8_b.jpg">
         <iptc/>
         <exif>
@@ -104,7 +105,7 @@ This would output something like this:
           </section>
         </exif>
       </image>
-    </images-info>
+    </image-info>
 
 Yeah... you already got it!
 You can use a dynamic XML datasource to have these informations available on your page.

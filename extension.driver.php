@@ -1,6 +1,6 @@
 <?php
 
-	class extension_Images_Info extends Extension {
+	class extension_Image_Info extends Extension {
 
 		public function about(){
 			return array(
