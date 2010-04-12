@@ -1,8 +1,8 @@
 # Image Information #
 
-- Version: 1.0
-- Date: 2nd April 2010
-- Github Repository: <http://github.com/alpacaaa/image-info/>
+- Version: 1.0.1
+- Date: 12th April 2010
+- Github Repository: <http://github.com/alpacaaa/image_info/>
 
 
 ## Synopsis

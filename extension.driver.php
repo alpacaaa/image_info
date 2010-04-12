@@ -5,8 +5,8 @@
 		public function about(){
 			return array(
 				'name' => 'Image Information',
-				'version' => '1.0',
-				'release-date' => '2010-04-01',
+				'version' => '1.0.1',
+				'release-date' => '2010-04-012',
 				'author' => array(
 					'name'  => 'Marco Sampellegrini',
 					'email' => 'm@rcosa.mp'

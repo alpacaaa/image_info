@@ -88,12 +88,13 @@
 			{
 				$iptc = iptcparse($info['APP13']);
 				
-				foreach ($iptc as $tag => $val)
+				foreach ($iptc as $handle => $val)
 				{
+					$tag  = self::iptcHandle($handle);
 					$temp = new XMLElement(
 						'data',
 						self::clean($val),
-						array('tag' => $tag)
+						array('tag' => $tag, 'handle' => $handle)
 					);
 					$node->appendChild($temp);
 				}
@@ -174,6 +175,39 @@
 			}
 			
 			return $ret;
+		}
+		
+		public static function iptcHandle($tag)
+		{
+			$handles = array(
+				'2#004' => 'intellectual-genre',
+				'2#005' => 'title',
+				'2#009' => 'urgency',
+				'2#012' => 'subject-code',
+				'2#015' => 'category',
+				'2#020' => 'supplemental-category',
+				'2#025' => 'keywords',
+				'2#040' => 'special-instructions',
+				'2#055' => 'date-created',
+				'2#080' => 'creator',
+				'2#085' => 'creator-job-title',
+				'2#090' => 'city',
+				'2#092' => 'location',
+				'2#095' => 'state',
+				'2#100' => 'iso-country-code',
+				'2#101' => 'country',
+				'2#103' => 'job-identifier',
+				'2#105' => 'headline',
+				'2#110' => 'provider',
+				'2#115' => 'source',
+				'2#116' => 'copyright-notice',
+				'2#120' => 'description',
+				'2#122' => 'description-writer'
+
+			);
+			
+			return array_key_exists($tag, $handles) !== false ?
+				$handles[$tag] : '';
 		}
 		
 		public static function setParent($parent)
