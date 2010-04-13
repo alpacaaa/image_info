@@ -62,17 +62,13 @@ This would output something like this:
       </image>
       <image path="/s_gps.jpg">
         <iptc>
-          <data tag="2#000"/>
-          <data tag="2#005">Communications</data>
-          <data tag="2#055">20020620</data>
-          <data tag="2#090"> </data>
-          <data tag="2#095"> </data>
-          <data tag="2#101">Ubited Kingdom</data>
-          <data tag="2#015">BUS</data>
-          <data tag="2#020">Communications</data>
-          <data tag="2#010">5</data>
-          <data tag="2#025">Communications</data>
-          <data tag="2#116">ian Britton - FreeFoto.com</data>
+          <data tag="" handle="2#000"/>
+          <data tag="Description" handle="2#120">Communications</data>
+          <data tag="DescriptionWriter" handle="2#122">Ian Britton</data>
+          <data tag="Headline" handle="2#105">Communications</data>
+          <data tag="Creator" handle="2#080">Ian Britton</data>
+          <data tag="CreatorJobTitle" handle="2#085">Photographer</data>
+          <data tag="Provider" handle="2#110">Ian Britton</data>
           ...
         </iptc>
         <exif>

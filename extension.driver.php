@@ -6,7 +6,7 @@
 			return array(
 				'name' => 'Image Information',
 				'version' => '1.0.1',
-				'release-date' => '2010-04-012',
+				'release-date' => '2010-04-12',
 				'author' => array(
 					'name'  => 'Marco Sampellegrini',
 					'email' => 'm@rcosa.mp'
