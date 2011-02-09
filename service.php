@@ -13,7 +13,7 @@
 	require_once 'lib/class.images_info.php';
 	
 	
-	ImagesInfo::setParent(Frontend::instance());
+	ImagesInfo::setParent(Symphony::Engine());
 	ImagesInfo::setRootElement('image-info');
 	
 	$options = array(
