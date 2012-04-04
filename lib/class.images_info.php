@@ -1,93 +1,89 @@
 <?php
-	
+
 	class ImagesInfo {
-	
-		static protected $parent, $root;
-		
+
+		static protected $root;
+
 		public static function findSection($handle)
 		{
-			$sm  = new SectionManager(self::getParent());
 			if (!is_numeric($handle)) {
-				$handle = $sm->fetchIDFromHandle($handle);
+				$handle = SectionManager::fetchIDFromHandle($handle);
 			}
-			
-			$ret = $sm->fetch($handle);
-			if (!is_object($ret)) {
+
+			$ret = SectionManager::fetch($handle);
+			if (!is_object($ret))
 				self::throwEx('Section does not exist');
-			}
-			
+
 			return $ret;
 		}
-		
+
 		public static function findEntries($entries, Section $section)
 		{
 			$entries = explode(',', $entries);
-			$em = new EntryManager(self::getParent());
-			
-			$ret = $em->fetch($entries, $section->get('id'));
-			if ($ret === false) {
+			$ret = EntryManager::fetch($entries, $section->get('id'));
+			if ($ret === false)
 				self::throwEx('An error occurred while processing entries');
-			}
-			
+
 			return $ret;
 		}
-		
-		public static function process($entries, $options = array())
+
+		public static function process($options = array())
 		{
 			$default = array(
+				'entries' => array(),
+				'section' => null,
+				'field_name' => null,
 				'iptc' => true,
 				'exif' => true
 			);
-			
-			$options = self::merge($default, $options);
-			self::checkRequirements($options['exif']);
-			
-			$root = new XMLElement(self::getRootElement());
-			
-			foreach ($entries as $entry)
-			{
-			
-				$data = $entry->getData();
-				foreach ($data as $field)
-				{
-					// file upload field?
-					if (!array_key_exists('file', $field)) continue;
-			
-					$rel = $field['file'];
-					$img = WORKSPACE. $rel;
-					$xml = new XMLElement(
-						'image',
-						null,
-						array('path' => $rel)
-					);
-					
-					if ($options['iptc']) {
-						$result = self::processIptc($img);
-						$xml->appendChild($result);
-					}
 
-					if ($options['exif']) {
-						$result = self::processExif($img);
-						$xml->appendChild($result);
-					}
-					
-					$root->appendChild($xml);
+			$options = array_merge($default, $options);
+			self::checkRequirements($options['exif']);
+
+			if (!$options['field_name'] || !$options['entries'] || !$options['section'])
+				self::throwEx('Missing required option');
+
+			$root  = new XMLElement(self::getRootElement());
+			$field = FieldManager::fetchFieldIDFromElementName($options['field_name'], $options['section']->get('id'));
+
+			foreach ($options['entries'] as $entry)
+			{
+
+				$data = $entry->getData($field);
+				$rel  = $data['file'];
+				$img  = WORKSPACE. $rel;
+				$xml  = new XMLElement(
+					'image',
+					null,
+					array('path' => $rel, 'entry_id' => $entry->get('id'))
+				);
+
+				if ($options['iptc']) {
+					$result = self::processIptc($img);
+					$xml->appendChild($result);
 				}
+
+				if ($options['exif']) {
+					$result = self::processExif($img);
+					$xml->appendChild($result);
+				}
+
+				$root->appendChild($xml);
 			}
-			
+
 			return $root;
 		}
-		
-		
+
+
 		public static function processIptc($img, $node = 'iptc')
 		{
 			getimagesize($img, $info);
 			$node = new XMLElement($node);
-			
+
 			if(isset($info['APP13']))
 			{
 				$iptc = iptcparse($info['APP13']);
-				
+
 				foreach ($iptc as $handle => $val)
 				{
 					$tag  = self::iptcHandle($handle);
@@ -99,26 +95,26 @@
 					$node->appendChild($temp);
 				}
 			}
-			
+
 			return $node;
 		}
-		
+
 		public static function processExif($img, $node = 'exif')
 		{
 			$exif = exif_read_data($img, 0, true);
 			$node = new XMLElement($node);
-			
+
 			if ($exif)
 			{
 				foreach ($exif as $name => $section)
 				{
-					
+
 					$elem = new XMLElement(
 						'section',
 						null,
 						array('name' => $name)
 					);
-					
+
 					foreach ($section as $tag => $val)
 					{
 						$temp = new XMLElement(
@@ -132,19 +128,19 @@
 					$node->appendChild($elem);
 				}
 			}
-			
+
 			return $node;
 		}
-				
+
 		public static function clean($value)
 		{
 			if (is_array($value)) $value = join(',', $value);
-	
+
 			// this sucks a lot :(
 			return (!@simplexml_load_string('<a>'. $value. '</a>'))
 					? '' : $value;
 		}
-		
+
 		public static function merge(array $default, array $options)
 		{
 			foreach ($default as $key => $val)
@@ -161,10 +157,10 @@
 						false : true;
 				}
 			}
-			
+
 			return $default;
 		}
-		
+
 		public static function checkRequirements($throw = false)
 		{
 			$ret = function_exists('exif_read_data');
@@ -173,10 +169,10 @@
 					'Exif extension not available'
 				);
 			}
-			
+
 			return $ret;
 		}
-		
+
 		public static function iptcHandle($tag)
 		{
 			$handles = array(
@@ -205,31 +201,21 @@
 				'2#122' => 'DescriptionWriter'
 
 			);
-			
+
 			return array_key_exists($tag, $handles) !== false ?
 				$handles[$tag] : '';
 		}
-		
-		public static function setParent($parent)
-		{
-			self::$parent = $parent;
-		}
-		
-		public static function getParent()
-		{
-			return self::$parent;
-		}
-		
+
 		public static function setRootElement($root)
 		{
 			self::$root = $root;
 		}
-		
+
 		public static function getRootElement()
 		{
 			return self::$root;
 		}
-		
+
 		protected static function throwEx($msg)
 		{
 			throw new Exception($msg);
