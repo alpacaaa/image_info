@@ -1,7 +1,7 @@
 # Image Information #
 
-- Version: 1.0.1
-- Date: 12th April 2010
+- Version: 0.2
+- Date: 4th April 2012
 - Github Repository: <http://github.com/alpacaaa/image_info/>
 
 
@@ -22,15 +22,16 @@ You don't need to enable it.
 
 This extension provides a sort of webservice that returns XML you can use as a dynamic datasource.
 
-The URL to use is the following: `yourdomain.com/extensions/image_info/service.php`
-(If you have installed symphony in a sub folder, you have to change the url accordingly).
+The URL to use is the following: `{$root}/extensions/image_info/service.php`
 
-Image Information accepts 4 parameters:
+Image Information accepts 5 parameters:
 
 - `section`*
 An handle or a section id
 - `entries`*
 a set of entries ids comma separated (eg.: 1,5,7)
+- `field_name`*
+field handle of the upload field where images are stored
 - `iptc`
 whether or not to include iptc info (bool, default to **true**)
 - `exif`
@@ -41,12 +42,12 @@ whether or not to include exif info (bool, default to **true**)
 
 To pass parameters, just append them to the url. The following is a valid possible call:
 
-    yourdomain.com/extensions/image_info/service.php?section=my-images&entries=9,12,17,22&iptc=false
+    {$root}/extensions/image_info/service.php?section=my-images&entries=10,12,17,22&field_name=file&iptc=false
 
 This would output something like this:
 
     <image-info>
-      <image path="/1431294624_14c70d71e8_b.jpg">
+      <image path="/1431294624_14c70d71e8_b.jpg" entry_id="10">
         <iptc/>
         <exif>
           <section name="FILE">
@@ -60,7 +61,7 @@ This would output something like this:
           </section>
         </exif>
       </image>
-      <image path="/s_gps.jpg">
+      <image path="/s_gps.jpg" entry_id="12">
         <iptc>
           <data tag="" handle="2#000"/>
           <data tag="Description" handle="2#120">Communications</data>
@@ -110,4 +111,4 @@ Obviously the url you supply to the DS doesn't have to be static. You can use an
 
 Therefore, something as simple as this would work as expected:
 
-    yourdomain.com/extensions/image_info/service.php?section=my-images&entries={$ds-whatever}
+    {$root}/extensions/image_info/service.php?section=my-images&entries={$ds-whatever}&field_name=file
